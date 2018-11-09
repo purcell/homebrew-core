@@ -18,8 +18,6 @@ class HaskellStack < Formula
     sha256 "d303035dc4e8fcdc8d1aecd5c0c56a8db0421cd21cc5d168442289b9d2e10168" => :el_capitan
   end
 
-  option "without-bootstrap", "Don't bootstrap a stage 2 stack"
-
   depends_on "cabal-install" => :build
   depends_on "ghc" => :build
 
@@ -36,23 +34,19 @@ class HaskellStack < Formula
     cabal_sandbox do
       cabal_install "happy"
 
-      if build.with? "bootstrap"
-        # The flag works around https://github.com/commercialhaskell/stack/issues/4363
-        cabal_install "--flags=disable-git-info"
+      # The flag works around https://github.com/commercialhaskell/stack/issues/4363
+      cabal_install "--flags=disable-git-info"
 
-        # Let `stack` handle its own parallelization
-        # Prevents "install: mkdir ... ghc-7.10.3/lib: File exists"
-        jobs = ENV.make_jobs
-        ENV.deparallelize
+      # Let `stack` handle its own parallelization
+      # Prevents "install: mkdir ... ghc-7.10.3/lib: File exists"
+      jobs = ENV.make_jobs
+      ENV.deparallelize
 
-        system "stack", "-j#{jobs}", "--stack-yaml=stack-lts-12.yaml",
-               "--system-ghc", "--no-install-ghc", "setup"
-        system "stack", "-j#{jobs}", "--stack-yaml=stack-lts-12.yaml",
-               "--system-ghc", "--no-install-ghc", "--local-bin-path=#{bin}",
-               "install", "--flag", "stack:disable-git-info"
-      else
-        install_cabal_package :flags => ["disable-git-info"]
-      end
+      system "stack", "-j#{jobs}", "--stack-yaml=stack-lts-12.yaml",
+             "--system-ghc", "--no-install-ghc", "setup"
+      system "stack", "-j#{jobs}", "--stack-yaml=stack-lts-12.yaml",
+             "--system-ghc", "--no-install-ghc", "--local-bin-path=#{bin}",
+             "install", "--flag", "stack:disable-git-info"
     end
   end
 
