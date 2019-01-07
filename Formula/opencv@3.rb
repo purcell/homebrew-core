@@ -4,9 +4,6 @@ class OpencvAT3 < Formula
   url "https://github.com/opencv/opencv/archive/3.4.5.tar.gz"
   sha256 "0c57d9dd6d30cbffe68a09b03f4bebe773ee44dc8ff5cd6eaeb7f4d5ef3b428e"
 
-  bottle do
-  end
-
   keg_only :versioned_formula
 
   depends_on "cmake" => :build
