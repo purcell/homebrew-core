@@ -111,7 +111,8 @@ class OpencvAT3 < Formula
     system ENV.cxx, "test.cpp", "-I#{include}", "-L#{lib}", "-o", "test"
     assert_equal `./test`.strip, version.to_s
 
-    ["python2.7", "python3"].each do |python|
+    ["python2.7", "python3.7"].each do |python|
+      ENV["PYTHONPATH"] = lib/python/"site-packages"
       output = shell_output("#{python} -c 'import cv2; print(cv2.__version__)'")
       assert_equal version.to_s, output.chomp
     end
