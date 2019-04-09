@@ -28,6 +28,7 @@ class Postgis < Formula
   depends_on "pcre"
   depends_on "postgresql"
   depends_on "proj"
+  depends_on "protobuf-c"
   depends_on "sfcgal" # for advanced 2D/3D functions
 
   def install
@@ -37,6 +38,7 @@ class Postgis < Formula
       "--with-projdir=#{Formula["proj"].opt_prefix}",
       "--with-jsondir=#{Formula["json-c"].opt_prefix}",
       "--with-pgconfig=#{Formula["postgresql"].opt_bin}/pg_config",
+      "--with-protobufdir=#{Formula["protobuf-c"].opt_bin}",
       # Unfortunately, NLS support causes all kinds of headaches because
       # PostGIS gets all of its compiler flags from the PGXS makefiles. This
       # makes it nigh impossible to tell the buildsystem where our keg-only
